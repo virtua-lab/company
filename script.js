@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollReveal();
     initSmoothScroll();
     initParticles();
+    initEmailCopy();
 });
 
 /**
@@ -187,5 +188,49 @@ function initParticles() {
 
         particlesContainer.appendChild(particle);
     }
+}
+
+/**
+ * Email copy functionality
+ */
+function initEmailCopy() {
+    const emailLinks = document.querySelectorAll('.email-link');
+
+    emailLinks.forEach(link => {
+        // Create tooltip element
+        const tooltip = document.createElement('span');
+        tooltip.className = 'copy-tooltip';
+        tooltip.textContent = 'Copy';
+        link.appendChild(tooltip);
+
+        let timeoutId;
+
+        link.addEventListener('click', async (e) => {
+            e.preventDefault();
+
+            const emailText = link.querySelector('.link-name').textContent;
+
+            try {
+                await navigator.clipboard.writeText(emailText);
+
+                // Clear existing timeout if any
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
+                }
+
+                // Reset animation
+                tooltip.classList.remove('visible');
+                void tooltip.offsetWidth; // Force reflow
+                tooltip.classList.add('visible');
+
+                // Hide after 2 seconds
+                timeoutId = setTimeout(() => {
+                    tooltip.classList.remove('visible');
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+            }
+        });
+    });
 }
 

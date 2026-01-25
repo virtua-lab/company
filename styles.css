@@ -801,8 +801,26 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--space-8);
+    gap: var(--space-24);
+    /* Increased gap between major items */
     margin-top: var(--space-8);
+}
+
+.service-item {
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-10);
+}
+
+.service-details {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-10);
+    width: 100%;
 }
 
 .group-title {
@@ -828,7 +846,8 @@ button {
 }
 
 .group-image-container {
-    max-width: 600px;
+    flex: 1;
+    max-width: 500px;
     width: 100%;
     padding: var(--space-8);
     border-radius: var(--radius-xl);
@@ -850,9 +869,28 @@ button {
     filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.2));
 }
 
-@media (max-width: 768px) {
+.service-text {
+    flex: 1;
+    font-size: var(--font-size-lg);
+    line-height: 2;
+    color: var(--color-text-secondary);
+    text-align: left;
+}
+
+@media (max-width: 850px) {
+    .service-details {
+        flex-direction: column;
+        gap: var(--space-6);
+    }
+
     .group-image-container {
+        max-width: 100%;
         padding: var(--space-6);
+    }
+
+    .service-text {
+        text-align: center;
+        font-size: var(--font-size-base);
     }
 }
 
@@ -1118,6 +1156,59 @@ button {
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+/* Tooltip Styles */
+.contact-link {
+    position: relative;
+    /* Ensure specific parent has relative positioning */
+}
+
+.copy-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: rgba(10, 10, 15, 0.9);
+    color: var(--color-text-primary);
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-base);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    pointer-events: none;
+    opacity: 0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    white-space: nowrap;
+    z-index: 10;
+    transform-origin: bottom center;
+}
+
+.copy-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: rgba(10, 10, 15, 0.9) transparent transparent transparent;
+}
+
+.copy-tooltip.visible {
+    opacity: 1;
+    animation: popIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+@keyframes popIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(10px) scale(0.5);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-5px) scale(1);
+    }
 }
 
 /* ============================================
